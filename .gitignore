@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# My additions
+gcs_upload_env/
+Dataset/
+Terraform/
