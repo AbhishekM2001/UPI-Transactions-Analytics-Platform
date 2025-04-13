@@ -177,3 +177,7 @@ cython_debug/
 gcs_upload_env/
 Dataset/
 Terraform/
+config/
+airflow/.env
+airflow/dags/__pycache__/*
+airflow/logs/
