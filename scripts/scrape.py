@@ -9,7 +9,9 @@ def scrape_rbi_upi_data():
     # Constants
     BASE_URL = "https://www.rbi.org.in/"
     TARGET_URL = "https://www.rbi.org.in/scripts/EntityWiseRetailStatistics.aspx"
-    OUTPUT_DIR = "Dataset\Raw"
+    OUTPUT_DIR = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "../Dataset/Raw"
+    )
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     # Step 1: Fetch the webpage
@@ -21,7 +23,6 @@ def scrape_rbi_upi_data():
     try:
         response = requests.get(TARGET_URL, headers=headers, timeout=30)
         response.raise_for_status()
-        print(response.status_code)
     except requests.exceptions.RequestException as e:
         print(f"Error fetching page: {e}")
         return None
@@ -46,8 +47,6 @@ def scrape_rbi_upi_data():
         if href.endswith((".xls", ".xlsx")):
             full_url = urljoin(BASE_URL, link["href"])
             excel_links.append(["", full_url])
-    print(f"Found {len(excel_links)} Excel links on the page.")
-    print("a excel links", excel_links)
 
     if not excel_links:
         print("No Excel files found on the page")
@@ -60,15 +59,8 @@ def scrape_rbi_upi_data():
         monthyear = date_values[k]
         link[0] = monthyear
         k += 1
-    print("b excel links", excel_links)
 
-    # Step 3: Get the latest file (assuming most recent is first or has latest date)
-    # Sort by link text which typically contains dates
-    # excel_links.sort(reverse=True, key=lambda x: x[0])
-    latest_file = excel_links[k - 1]  # Get the latest file (last in the sorted list)
-    print(f"Found Excel file: {latest_file[0]} - {latest_file[1]}")
-
-    # Step 4: Download the file
+    # Step 3: Download the file
     for link in excel_links:
         try:
             file_response = requests.get(link[1], headers=headers, timeout=30)

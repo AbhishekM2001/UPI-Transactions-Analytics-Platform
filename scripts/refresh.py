@@ -1,9 +1,12 @@
 from google.cloud import bigquery
 from google.cloud import storage
 from google.oauth2 import service_account
+import os
 
-# Path to your service account key
-SERVICE_ACCOUNT_KEY = "./Terraform/Terraform_keys.json"
+# Dynamically get the path to the service account key in the config folder
+SERVICE_ACCOUNT_KEY = os.path.join(
+    os.path.dirname(__file__), "../config/gcp-credentials.json"
+)
 
 # Initialize client
 credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_KEY)
@@ -20,12 +23,12 @@ def load_new_data():
     LOAD DATA OVERWRITE `upi_analytics.cleaned_data`
     FROM FILES (
     format = 'CSV',
-    uris = ['gs://upi-transaction-analytics-upi-data/cleaned/upi_data_*.csv'],
+    uris = ['gs://upi-transaction-analytics-upi-data/cleaned/upi_dataset_*.csv'],
     skip_leading_rows = 1
     );
     """
     client.query(query).result()
-    print("✅ Step 1: New data loaded to staging")
+    print("Step 1: New data loaded to staging")
 
 
 def refresh_optimized_table():
@@ -56,7 +59,7 @@ AS (
 );    
 """
     client.query(query).result()
-    print("✅ Step 2: Optimized table refreshed")
+    print("Step 2: Optimized table refreshed")
 
 
 def refresh_views():
@@ -90,7 +93,7 @@ ORDER BY 2;
 
     for q in queries:
         client.query(q).result()
-    print("✅ Step 3: Views refreshed")
+    print("Step 3: Views refreshed")
 
 
 # def archive_processed_files():
@@ -106,4 +109,4 @@ if __name__ == "__main__":
     refresh_optimized_table()
     refresh_views()
     # archive_processed_files()
-    print("🚀 Pipeline completed successfully")
+    print("Pipeline completed successfully")
