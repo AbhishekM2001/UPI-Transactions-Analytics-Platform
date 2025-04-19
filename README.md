@@ -1,7 +1,7 @@
 # UPI Transaction Analytics Pipeline
 This project has been developed as part of final project for Data Engineering Zoomcamp 2025
 
-![GCP Architecture Diagram](https://i.imgur.com/JQ6yztO.png)
+![GCP Architecture Diagram](/images/Architecture%20Diagram.png)
 
 ## 📌 Problem Statement
 
@@ -43,7 +43,8 @@ This analysis helps:
 |------------|---------|------------------|
 | **Python** | Data processing | BeautifulSoup, Pandas |
 | **Docker** | Containerization | Multi-service isolation |
-| **GCP** | Cloud infrastructure | BigQuery, GCS, Dataflow |
+| **GCS Bucket** | Storage | Loading processed files to DWH in a bucket |
+| **BigQuery** | Analytics | Creating materialized views to use in Looker studio |
 | **Airflow** | Orchestration | Monthly DAG scheduling |
 | **Looker Studio** | Visualization | UPI trend dashboards |
 | **Terraform** | IaC | GCP resource provisioning |
@@ -51,7 +52,7 @@ This analysis helps:
 ## 📊 Dashboard Preview
 [View Live Dashboard](https://lookerstudio.google.com/reporting/eaf357b8-94a0-40bc-8b22-7bb9ca4f3f8f) 
 
-![Dashboard Screenshot](image.png)
+![Dashboard Screenshot](/images/Looker%20Studio%20Dashboard.png)
 
 [Dataset Link](https://www.rbi.org.in/Scripts/EntityWiseRetailStatistics.aspx)
 
