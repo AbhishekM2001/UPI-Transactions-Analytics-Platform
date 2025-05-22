@@ -180,3 +180,4 @@ config/
 airflow/.env
 airflow/dags/__pycache__/*
 airflow/logs/
+Terraform/.terraform/*
